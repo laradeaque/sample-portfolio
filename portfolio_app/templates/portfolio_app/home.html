@@ -1,0 +1,211 @@
+{% extends 'portfolio_app/base.html' %}
+{% load static %}
+
+{% block main %}
+	<!-- Header -->
+	<header id="portfolio">
+		<a href="#"><img src="{% static 'images/Arnold1.jpeg' %}" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>
+		<span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
+		<div class="w3-container">
+			<h1><b>My Portfolio</b></h1>
+			<div class="w3-section w3-bottombar w3-padding-16">
+			  <span class="w3-margin-right">What I Write About:</span> 
+			  <button class="w3-button w3-white"><i class="fa fa-book w3-margin-right" aria-hidden="true"></i>Blogs</button>
+			  <button class="w3-button w3-white w3-hide-small"><i class="fa fa-desktop w3-margin-right" aria-hidden="true"></i>Projects</button>
+			  <button class="w3-button w3-white w3-hide-small"><i class="fa fa-map-pin w3-margin-right"></i>Others</button>
+			</div>
+		</div>
+	</header>
+
+	<!-- First Photo Grid-->
+	<div class="w3-row-padding">
+		{% for card in page_obj %}
+			<div class="w3-third w3-container w3-margin-bottom">
+				<img src="{{card.blog_image.url}}" alt="Norway" style="width:326px;height:250px" class="w3-hover-opacity">
+				<div class="w3-container w3-white">
+					<p><a href="{% url 'blog' blog_slug=card.slug %}"><b>{{ card.title }}</b></a></p>
+					<p>{{ card.sub_title }}</p>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<!-- Pagination -->
+	<div class="w3-center w3-padding-32">
+		<div class="w3-bar">
+			{% if page_obj.has_previous %}
+				<a href="{% url 'home_page' page_obj.previous_page_number %}" class="w3-bar-item w3-button w3-hover-black">
+					«
+				</a>
+			{% endif%}
+			{% for page_number in page_obj.paginator.get_elided_page_range %}
+				{% if page_number == page_obj.paginator.ELLIPSIS %}
+					<a href="#" class="w3-bar-item w3-button w3-hover-black">{{page_number}}</a>
+				{% else %}
+					<a href="{% url 'home_page' page_number %}" class="w3-bar-item w3-button {% if page_number == page_obj.number %}w3-black{% else %}w3-hover-black{% endif %}">
+						{{page_number}}
+					</a>
+				{% endif %}
+			{% endfor %}
+			{% if page_obj.has_next %}
+				<a href="{% url 'home_page' page_obj.next_page_number %}" class="w3-bar-item w3-button w3-hover-black">
+					»
+				</a>
+			{% endif %}
+			<a href="#" class="w3-bar-item w3-button w3-hover-black"></a>
+		</div>
+	</div>
+
+	<!-- Images of Me -->
+	<div class="w3-row-padding w3-padding-16" id="about">
+		<div class="w3-col m6">
+			<img src="{% static 'images/Arnold1.jpeg' %}" alt="Me" style="max-height:200px">
+		</div>
+		<div class="w3-col m6">
+			<img src="{% static 'images/Arnold2.jpeg' %}" alt="Me" style="height:100%">
+		</div>
+	</div>
+
+	<div class="w3-container w3-padding-large" style="margin-bottom:32px">
+		<h4><b>About Me</b></h4>
+		<p>
+			Hey, pal! Imagine a code wizard who moonlights as a wordsmith—I'm that guy. As a System Developer, I craft low-level symphonies in Rust and C. When I'm not untangling the mysteries of the Linux universe, I'm penning playful blogs on my software escapades. Former Django enthusiast turned low-level language devotee, I dance between the clouds of AWS and Azure, spreading pixelated joy. With superb communication skills and a commitment to code that rivals my love for pizza, I'm here to make tech talk as breezy as a summer day. Let's code, laugh, and conquer bugs together! 🚀💻 #love_code_live
+		</p>
+		<hr>
+
+		<h4 id="skills">Technical Skills</h4>
+
+		<!-- Progress bars / Skills -->
+		<p>Backend Web Development</p>
+		<div class="w3-grey">
+			<div class="w3-container w3-dark-grey w3-padding w3-center" style="width:89%">89%</div>
+		</div>
+		<p>Blogging</p>
+		<div class="w3-grey">
+			<div class="w3-container w3-dark-grey w3-padding w3-center" style="width:80%">80%</div>
+		</div>
+		<p>Linux/Unix Environment</p>
+		<div class="w3-grey">
+			<div class="w3-container w3-dark-grey w3-padding w3-center" style="width:78%">78%</div>
+		</div>
+		<p>System Development - I don't know stuff</p>
+		<div class="w3-grey">
+			<div class="w3-container w3-dark-grey w3-padding w3-center" style="width:77%">77%</div>
+		</div>
+		<p>Cloud Development</p>
+		<div class="w3-grey">
+			<div class="w3-container w3-dark-grey w3-padding w3-center" style="width:70%">70%</div>
+		</div>
+		<p>
+			<a href="{% url 'download-resume' %}" class="w3-button w3-round w3-dark-grey w3-padding-large w3-margin-top w3-margin-bottom">
+				<i class="fa fa-download w3-margin-right"></i>Download Resume
+			</a>
+		</p>
+		<hr>
+	</div>
+
+	<!-- Contact Section -->
+	<div class="w3-container w3-padding-large w3-grey">
+		<h4 id="contact"><b>Contact Me</b></h4>
+		<div class="w3-row-padding w3-center w3-padding-24" style="margin:0 -16px">
+			<div class="w3-third w3-dark-grey">
+				<p><i class="fa fa-envelope w3-xxlarge w3-text-light-grey"></i></p>
+				<p>laradeaque@gmail.com</p>
+			</div>
+			<div class="w3-third w3-teal">
+				<p><i class="fa fa-map-marker w3-xxlarge w3-text-light-grey"></i></p>
+				<p>Nairobi, KE</p>
+			</div>
+			<div class="w3-third w3-dark-grey">
+				<p><i class="fa fa-phone w3-xxlarge w3-text-light-grey"></i></p>
+				<p>+254 707889791</p>
+			</div>
+		</div>
+		<hr class="w3-opacity">
+		<form method="post" autocomplete=true>
+		  {% csrf_token %}
+		  <div class="w3-section">
+			<label>Name</label>
+			<input class="w3-input w3-border" type="text" name="Name" required>
+		  </div>
+		  <div class="w3-section">
+			<label>Email</label>
+			<input class="w3-input w3-border" type="text" name="Email" required>
+		  </div>
+		  <div class="w3-section">
+			<label>Message</label>
+			<input class="w3-input w3-border" type="text" name="Message" required>
+		  </div>
+		  <button type="submit" class="w3-button w3-black w3-round w3-margin-bottom"><i class="fa fa-paper-plane w3-margin-right"></i>Send Message</button>
+		</form>
+	</div>
+{% endblock main %}
+
+<!-- Footer -->
+{% block footer %}
+	<div class="w3-row-padding">
+		<div class="w3-half">
+		  <h3>FOOTER</h3>
+		  <p>
+		  Strap in for a tech-tastic adventure where every code line whispers secrets and bugs are mischievous little riddles. 💻 #ArnoldKamau
+		  </p>
+		  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+		</div>
+
+		<div class="w3-half">
+		  <h3>BLOG POSTS</h3>
+		  <ul class="w3-ul w3-hoverable">
+				{% for card in recommended %}
+					<li class="w3-padding-16">
+						<img src="{{ card.blog_image.url }}" class="w3-left w3-margin-right" style="width:50px">
+						<span class="w3-large">{{ card.title}}</span><br>
+						<span>{{ card.sub_title }}</span>
+					</li>
+			  {% endfor %}
+		  </ul>
+		</div>
+	</div>
+{% endblock footer %}
+
+{% block script %}
+const elementIsVisibleInViewport = (el, partiallyVisible = false) => {
+  const { top, left, bottom, right } = el.getBoundingClientRect();
+  const { innerHeight, innerWidth } = window;
+  return partiallyVisible
+    ? ((top > 0 && top < innerHeight) ||
+        (bottom > 0 && bottom < innerHeight)) &&
+        ((left > 0 && left < innerWidth) || (right > 0 && right < innerWidth))
+    : top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth;
+};
+
+portfolio_div = document.getElementById("portfolio");
+about_div = document.getElementById("about");
+skills_div = document.getElementById("skills");
+contact_div = document.getElementById("contact");
+
+function update_highlight() {
+	if (elementIsVisibleInViewport(portfolio_div, true)) {
+		selected = document.querySelector(".w3-text-teal");
+		active_link = document.querySelector("a#home-link");
+		selected.classList.remove("w3-text-teal")
+		active_link.classList.add("w3-text-teal");
+	} else if (elementIsVisibleInViewport(about_div, true)) {
+		selected = document.querySelector(".w3-text-teal");
+		active_link = document.querySelector("a#about-link");
+		selected.classList.remove("w3-text-teal")
+		active_link.classList.add("w3-text-teal");
+	} else if (elementIsVisibleInViewport(skills_div, true)) {
+		selected = document.querySelector(".w3-text-teal");
+		active_link = document.querySelector("a#skills-link");
+		selected.classList.remove("w3-text-teal")
+		active_link.classList.add("w3-text-teal");
+	} else if (elementIsVisibleInViewport(contact_div, true)) {
+		selected = document.querySelector(".w3-text-teal");
+		active_link = document.querySelector("a#contact-link");
+		selected.classList.remove("w3-text-teal")
+		active_link.classList.add("w3-text-teal");
+	}
+}
+update_highlight();
+window.onscroll = function() {update_highlight()};
+{% endblock script %}
